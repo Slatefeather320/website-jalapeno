@@ -24,9 +24,7 @@
       overflow-x: hidden;
     }
 
-    /* ── HERO SCROLL CONTAINER ──
-       This is tall (3× viewport) so we have scroll room.
-       The sticky child pins the visual to the screen. */
+    /* ── HERO SCROLL CONTAINER ── */
     #hero-scroll {
       position: relative;
       height: 300vh;
@@ -60,7 +58,98 @@
       pointer-events: none;
     }
 
-    /* ── GOLD DIVIDER — sticky after hero ── */
+    /* ── FIXED UI LAYER (NEW) ── */
+    #info-widget {
+      position: fixed;
+      top: 30px;
+      right: 40px;
+      z-index: 1000;
+      transition: opacity 0.4s ease;
+    }
+
+    .info-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .info-icon:hover {
+      background: var(--dark);
+      transform: scale(1.1);
+    }
+
+    .info-box {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 12px;
+      width: 250px;
+      background: var(--cream);
+      color: var(--dark);
+      padding: 15px;
+      border-radius: 6px;
+      border: 2px solid var(--gold);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      pointer-events: none;
+    }
+
+    #info-widget:hover .info-box,
+    .info-box.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #scroll-prompt {
+      position: fixed;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      color: var(--cream);
+      font-family: var(--mono);
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      z-index: 1000;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      transition: opacity 0.4s ease;
+    }
+
+    .scroll-arrow {
+      font-size: 24px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+
+    /* ── GOLD DIVIDER ── */
     #divider {
       position: sticky;
       top: 0;
@@ -126,7 +215,6 @@
       padding-left: 40px;
     }
 
-    /* Vertical gold line — thicker */
     .timeline-track::before {
       content: '';
       position: absolute;
@@ -143,7 +231,6 @@
       margin-bottom: 60px;
     }
 
-    /* Gold circle marker — bigger */
     .timeline-item::before {
       content: '';
       position: absolute;
@@ -182,7 +269,18 @@
 </head>
 <body>
 
-  <!-- HERO: tall scroll container with sticky visual -->
+  <div id="info-widget">
+    <div class="info-icon">?</div>
+    <div class="info-box">
+      Background Image: This is an image I made in Blender using procedural textures and handmade 3d models. It's inspired partially by M.C. Escher's <i>Print Gallary</i> lithograph. 
+    </div>
+  </div>
+
+  <div id="scroll-prompt">
+    <span style="writing-mode: vertical-rl;">SCROLL</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+
   <div id="hero-scroll">
     <div id="hero-sticky">
       <div id="bg-layer"></div>
@@ -191,10 +289,8 @@
     </div>
   </div>
 
-  <!-- STICKY GOLD DIVIDER -->
   <div id="divider"></div>
 
-  <!-- ABOUT -->
   <section id="about">
     <div id="intro-text">
       <p>I am an undergrad at the University of Maryland, College Park.</p>
@@ -205,7 +301,6 @@
     <div id="section-title">Projects and Work Experience</div>
   </section>
 
-  <!-- TIMELINE -->
   <section id="timeline">
     <div class="timeline-grid">
 
@@ -222,7 +317,7 @@
           <div class="timeline-item">
             <div class="timeline-date">Jun 2025 - Jul 2025</div>
             <div class="timeline-title">Operations Research Intern at IIT Delhi's Public Systems Lab</div>
-            <div class="timeline-desc">"Delivered a Flask application using CoinOR and OSRM to prototype linear programming models. Contributed to a UNFP funded project optimizing food transportation in the Indian state of Odisha by testing model constraints and implementations.</div>
+            <div class="timeline-desc">Delivered a Flask application using CoinOR and OSRM to prototype linear programming models. Contributed to a UNFP funded project optimizing food transportation in the Indian state of Odisha by testing model constraints and implementations.</div>
           </div>
 
           <div class="timeline-item">
@@ -257,33 +352,63 @@
   </section>
 
   <script>
-    const heroScroll = document.getElementById('hero-scroll');
-    const clayLayer  = document.getElementById('clay-layer');
-    const textLayer  = document.getElementById('text-layer');
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroScroll   = document.getElementById('hero-scroll');
+      const clayLayer    = document.getElementById('clay-layer');
+      const textLayer    = document.getElementById('text-layer');
+      
+      const infoWidget   = document.getElementById('info-widget');
+      const infoIcon     = document.querySelector('.info-icon');
+      const infoBox      = document.querySelector('.info-box');
+      const scrollPrompt = document.getElementById('scroll-prompt');
 
-    function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+      // 1. Safe click listener
+      if (infoIcon && infoBox) {
+        infoIcon.addEventListener('click', () => {
+          infoBox.classList.toggle('active');
+        });
+      }
 
-    function onScroll() {
-      const scrollY  = window.scrollY;
-      const heroH    = heroScroll.offsetHeight;      // 300vh
-      const vpH      = window.innerHeight;           // 100vh
-      // scrollY goes 0 → 2*vpH while the hero is pinned (last vpH is the hero leaving)
-      const scrollable = heroH - vpH;                // 2 * vpH
+      function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
 
-      // progress 0 → 1 across the entire pinned scroll range
-      const t = clamp(scrollY / scrollable, 0, 1);
+      function onScroll() {
+        const scrollY = window.scrollY;
 
-      // 1. Parallax: text moves up at 35% of scroll speed
-      const parallaxPx = scrollY * 0.35;
-      textLayer.style.transform = `translateY(-${parallaxPx}px)`;
+        // 2. Safe parallax and clay fade
+        if (heroScroll && textLayer && clayLayer) {
+          const heroH      = heroScroll.offsetHeight;
+          const vpH        = window.innerHeight;
+          const scrollable = heroH - vpH;
+          
+          if (scrollable > 0) {
+            const t = clamp(scrollY / scrollable, 0, 1);
+            textLayer.style.transform = `translateY(-${scrollY * 0.35}px)`;
+            clayLayer.style.opacity   = clamp((t - 0.4) / 0.45, 0, 1);
+          }
+        }
 
-      // 2. Clay fade: starts at t=0.4, fully visible at t=0.85
-      const fadeT = clamp((t - 0.4) / 0.45, 0, 1);
-      clayLayer.style.opacity = fadeT;
-    }
+        // 3. Safe scroll prompt handling
+        if (scrollPrompt) {
+          scrollPrompt.style.opacity = scrollY > 50 ? '0' : '1';
+          scrollPrompt.style.pointerEvents = scrollY > 50 ? 'none' : 'auto';
+        }
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+        // 4. Safe info widget handling
+        if (infoWidget) {
+          if (scrollY > 150) {
+            infoWidget.style.opacity = '0';
+            infoWidget.style.pointerEvents = 'none';
+            if (infoBox) infoBox.classList.remove('active'); 
+          } else {
+            infoWidget.style.opacity = '1';
+            infoWidget.style.pointerEvents = 'auto';
+          }
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll(); // Fire once on load to set initial states
+    });
   </script>
 </body>
 </html>
