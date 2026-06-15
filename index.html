@@ -178,12 +178,12 @@
       font-family: var(--mono);
       font-size: clamp(15px, 2.2vw, 30px);
       font-weight: 700;
-      line-height: 1.9;
+      line-height: 1.7;
       max-width: 640px;
     }
 
     #intro-text p + p {
-      margin-top: 1em;
+      margin-top: 0.75em;
     }
 
     /* ── TIMELINE ── */
@@ -265,6 +265,37 @@
       line-height: 1.75;
       color: #444;
     }
+
+    #gold-banner {
+      background: var(--gold);
+      color: var(--cream); /* Using your cream variable instead of pure white */
+      padding: 40px 10%;
+    }
+    
+    #gold-banner h2 {
+      font-family: var(--mono);
+      font-size: clamp(24px, 3vw, 40px);
+      margin-bottom: 10px;
+    }
+    
+    #gold-banner p {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(15px, 2vw, 24px);
+      line-height: 1.2;
+    }
+
+    #beige-banner {
+      background: var(--cream);
+      color: var(--dark);
+      padding: 80px 10%;
+    }
+    
+    #beige-banner p {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(15px, 2vw, 24px);
+      line-height: 1.2;
+    }
+
   </style>
 </head>
 <body>
@@ -326,6 +357,12 @@
             <div class="timeline-desc">Developed sensor fusion algorithms for IMU and GPS data. Improved accelorometer accuracy by 2 significant digits by implimenting Kalman filter. Work included researching algorithms, implimenting them on drones, flying and measuring drone performance, documenting results and repeating the process. This startup has since been acquired by LAT Aerospace.</div>
           </div>
 
+          <div class="timeline-item">
+            <div class="timeline-date">Nov 2022 - Jan 2023</div>
+            <div class="timeline-title">Graphic Design Intern</div>
+            <div class="timeline-desc">Created 3D models from schematics of products such as 5G base stations. Created other media for internal use such as layouts of scenes for promotional materials. Worked in Photoshop, Premier Pro, and Blender.</div>
+          </div>
+
         </div>
       </div>
 
@@ -349,6 +386,24 @@
       </div>
 
     </div>
+  </section>
+
+  <section id="gold-banner">
+    <h2>Why these things?</h2>
+    <p>At first glance, a lot of my work can seem random. It is true that I haven't found one subfield of computer science I want to stick with yet. I think there is value in wide exploration, especially this early in my career. <br><br> 
+    See Chapter 2 Explore Vs Exploit, <i>Algorithms to Live By</i>, Brian Christian and Tom Griffiths for a more mathematically rigorous motive for this intuition. </p>
+  </section>
+
+  <section id="beige-banner">
+    <p>Computer science concepts are like a toolbox which can be used for many different things in many different places. For me, the first place was artistic expression, 3d modeling, lighting, texturing, rendering, compositing. Learning Blender, and later writing code for WebGL, building my first website. <br><br>
+      This transitioned into more technical 3d modeling for products at Amantaya and Sharang Shakti. Eventually I moved on from the visual aspects and started working on the product directly. Here my set of tools changed to signal processing and Kalman filters. <br><br>
+      At the same job I first got my hands on microcontrollers and other embedded systems, specifically STM32s. This was the catalyst of another toolbox shift to C and soldering. Continuing onto where I work now designing PCBs. <br><br>
+      In college, I found an intersection of many of these tools, such as lambda calculus and syntactical structure, with the arts and humanities through linguistics. Though this of course, like everything else, spirals into its own set of tools.</p>
+  </section>
+
+  <section id="gold-banner">
+    <h2>What now?</h2>
+    <p>Alongside my embedded systems work, I am also on what I consider a half-sabbatical rereading Cal Newport's <i>Deep Work</i>, reading books on Quantative Finance, and refreshing my knowledge of signal processing and Kalman filters to apply in this new field. <br><br> Also lots of writing poetry in coffee shops.</p>
   </section>
 
   <script>
