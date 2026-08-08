@@ -23,6 +23,7 @@ from pathlib import Path
 # do not rename
 async def custom_site():
     import embed
+    # 1. PYTHON BACKGROUND COLOR OVERRIDE IS HERE
     platform.document.body.style.background = "#7f7f7f"
 
     platform.window.transfer.hidden = true
@@ -69,7 +70,7 @@ async def custom_site():
         # but we need to fill __file__ that is not yet set
         __import__(__name__).__file__ = main
 
-        # now make a prompt
+        # 2. PYTHON LOADING TEXT PROMPT IS HERE
         msg  = "Ready to start ! Please click/touch page"
         platform.window.infobox.innerText = msg
         print("\n"*4, f"    * Waiting for media user engagement. {msg} *" , "\n"*4)
@@ -186,8 +187,8 @@ function show_infobox() {
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
 
-
-    <link rel="icon" type="image/png" href="favicon.png" sizes="16x16">
+    <!-- CHANGED FAVICON TO ROOT FOLDER ICON.ICO -->
+    <link rel="icon" type="image/x-icon" href="../icon.ico">
 
     <style>
         #status {
@@ -206,8 +207,8 @@ function show_infobox() {
 
         #infobox {
             position: fixed; /* center relative to viewport */
-            background: green;
-            color: blue;
+            background: #f0ede6;
+            color: #C8A42A;
             font-weight: bold;
             padding: 12px 24px;
  /*           display: none; */
@@ -240,7 +241,7 @@ function show_infobox() {
             font-family: arial;
             margin: 0;
             padding: none;
-            background-color:powderblue;
+            background-color:#f0ede6; 
         }
 
         .topright{
@@ -292,7 +293,7 @@ function show_infobox() {
 
     <div id="transfer" align=center>
 <!--        <div class="spinner" id='spinner'></div> -->
-        <div class="emscripten" id="status">Downloading...</div>
+        <div class="emscripten" id="status">Loading...</div>
         <div class="emscripten">
             <progress value="0" max="100" id="progress"></progress>
         </div>
@@ -312,6 +313,7 @@ height="720px"
     oncontextmenu="event.preventDefault()" tabindex=1 hidden>
     </canvas>
 
+    <!-- 6. INITIAL INFOBOX TEXT IS HERE -->
     <div id="infobox">Loading, please wait ...</div>
 
     <div id=html></div>
