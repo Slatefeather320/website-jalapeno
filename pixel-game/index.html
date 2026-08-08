@@ -23,19 +23,17 @@ from pathlib import Path
 # do not rename
 async def custom_site():
     import embed
-    # Changed Python background override to your --cream color
+    
     platform.document.body.style.background = "#f0ede6"
 
     platform.window.transfer.hidden = true
     platform.window.canvas.style.visibility = "visible"
-
 
     bundle = "pixelgame"
 
     # the C or js loader could do that but be explicit.
     appdir = Path(f"/data/data/{bundle}") # /data/data/pixelgame
     appdir.mkdir()
-
 
     # unpack filesystem from compressed archive into work dir
     if platform.window.location.host.find('.itch.zone')>0:
@@ -53,29 +51,13 @@ async def custom_site():
     # preloader will change to work dir and prepend it to sys.path
     platform.run_main(PyConfig, loaderhome= appdir / "assets", loadermain=None)
 
-
     # wait preloading complete : that includes images and wasm compilation of bundled modules
     while embed.counter()<0:
         await asyncio.sleep(.1)
 
     main = appdir / "assets" / "main.py"
 
-    # TODO: test for window.webkitAudioContext and block aio loop until gesture if accessing media manager play
-    # before a gesture is recorded ( touch or click )
-
-    # test/wait user media interaction
-    if not platform.window.MM.UME:
-
-        # now that apk is mounted we have access to font cache
-        # but we need to fill __file__ that is not yet set
-        __import__(__name__).__file__ = main
-
-        msg  = "Loading project... Ready to start! Please click/touch game"
-        platform.window.infobox.innerText = msg
-        print("\n"*4, f"    * Waiting for media user engagement. {msg} *" , "\n"*4)
-
-        while not platform.window.MM.UME:
-            await asyncio.sleep(.1)
+    # REMOVED the "Wait for user media interaction" block here so it auto-starts
 
     # start async top level machinery if not started and add a console in any case if requested.
     await TopLevel_async_handler.start_toplevel(platform.shell, console=window.python.config.debug)
@@ -84,14 +66,10 @@ async def custom_site():
     # but we need to fill __file__/__name__ that are not yet set
     __import__(__name__).__file__ = main
 
-
     def ui_callback(pkg):
         platform.window.infobox.innerText = f"installing {pkg}"
 
     await shell.source(main, callback=ui_callback)
-
-    # if you don't reach that step
-    # your main.py has an infinite sync loop somewhere !
 
     platform.window.infobox.style.display = "none"
     platform.window.config.gui_divider = 1
@@ -149,12 +127,12 @@ config = {
     user_canvas : 0,
     user_canvas_managed : 0,
     gui_divider : 2,
-    ume_block : 1,
+    ume_block : 0, // CHANGED TO 0 TO PREVENT AUDIO BLOCKING
     can_close : 0,
     archive : "pixelgame",
     gui_debug : 2,
     cdn : "https://pygame-web.github.io/cdn/0.9.3/",
-    autorun : 0,
+    autorun : 1, // CHANGED TO 1 TO ENCOURAGE AUTO-START
     PYBUILD : "3.12",
     fb_ar   :  1.333,
     fb_width : "800",
@@ -190,7 +168,6 @@ function show_infobox() {
     <link rel="icon" type="image/x-icon" href="../icon.ico">
 
     <style>
-        /* CSS VARIABLES APPLIED HERE */
         :root {
             --gold: #C8A42A;
             --cream: #f0ede6;
@@ -209,7 +186,6 @@ function show_infobox() {
             min-height: 100vh;
         }
 
-        /* NEW FLEXBOX LAYOUT CONTAINER */
         .layout-container {
             display: flex;
             flex-direction: row;
@@ -217,7 +193,7 @@ function show_infobox() {
             max-width: 1200px;
             width: 100%;
             align-items: flex-start;
-            flex-wrap: wrap; /* Allows text to wrap under game on small screens */
+            flex-wrap: wrap; 
         }
 
         .game-section {
@@ -248,7 +224,7 @@ function show_infobox() {
         }
 
         #infobox {
-            position: fixed; /* center relative to viewport */
+            position: fixed; 
             background: var(--gold);
             color: var(--dark);
             font-weight: bold;
@@ -268,11 +244,15 @@ function show_infobox() {
             padding: 0;
             margin: 0 auto;
             
-            /* Overriding absolute position so flexbox works */
             position: static !important;
             width: 800px !important;
             height: 600px !important;
             display: block;
+        }
+
+        /* FIX: FORCES THE HIDDEN 3D CANVAS TO ACTUALLY COLLAPSE */
+        canvas[hidden] {
+            display: none !important;
         }
 
         .topright{ position:absolute; top:0px; right:0px; }
@@ -307,7 +287,6 @@ function show_infobox() {
         <!-- GAME SECTION -->
         <div class="game-section">
             <div id="transfer" align=center>
-                <!-- CHANGED DOWNLOADING TEXT HERE -->
                 <div class="emscripten" id="status">Loading project...</div>
                 <div class="emscripten">
                     <progress value="0" max="100" id="progress"></progress>
@@ -326,7 +305,6 @@ function show_infobox() {
     </div>
 
 
-    <!-- CHANGED INFOBOX TEXT HERE -->
     <div id="infobox">Loading project...</div>
 
     <div id=html></div>
@@ -393,8 +371,6 @@ frameborder="1"
     }
 
     async function custom_onload(debug_hidden) {
-        // this is called before anything python is loaded
-        // make your js customization here
         console.log(__FILE__, "custom_onload")
 
         pyconsole.hidden = debug_hidden
@@ -407,20 +383,14 @@ frameborder="1"
     }
 
     function custom_prerun(){
-        // no python main and no (MEMFS + VFS) yet.
         console.log(__FILE__, "custom_prerun")
-
     }
 
     function custom_postrun(){
-        // python main and no VFS filesystem yet.
         console.log(__FILE__, "custom_postrun")
-
     }
 
     function debug() {
-        // allow to gain access to dev tools from js console
-        // but only on desktop. difficult to reach when in iframe
         python.config.debug = true
         custom_onload(false)
         Module.PyRun_SimpleString("shell.uptime()")
@@ -432,8 +402,7 @@ frameborder="1"
     }
 
     function info_online(url) {
-        // display info about current APK
-        fetch( url /*, options */)
+        fetch( url )
             .then((response) => response.text())
             .then((html) => {
                 info_inline(html);
