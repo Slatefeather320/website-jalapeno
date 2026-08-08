@@ -6,7 +6,7 @@ Loading pixelgame from pixelgame.apk
     Template Version : 0.9.3
     Python  : 3.12
     CDN URL : https://pygame-web.github.io/cdn/0.9.3/
-    Screen  : 1280x720
+    Screen  : 800x600
     Title   : pixelgame
     Folder  : pixelgame
     Authors : pgw
@@ -23,8 +23,8 @@ from pathlib import Path
 # do not rename
 async def custom_site():
     import embed
-    # 1. PYTHON BACKGROUND COLOR OVERRIDE IS HERE
-    platform.document.body.style.background = "#7f7f7f"
+    # Changed Python background override to your --cream color
+    platform.document.body.style.background = "#f0ede6"
 
     platform.window.transfer.hidden = true
     platform.window.canvas.style.visibility = "visible"
@@ -70,8 +70,7 @@ async def custom_site():
         # but we need to fill __file__ that is not yet set
         __import__(__name__).__file__ = main
 
-        # 2. PYTHON LOADING TEXT PROMPT IS HERE
-        msg  = "Ready to start ! Please click/touch page"
+        msg  = "Loading project... Ready to start! Please click/touch game"
         platform.window.infobox.innerText = msg
         print("\n"*4, f"    * Waiting for media user engagement. {msg} *" , "\n"*4)
 
@@ -157,9 +156,9 @@ config = {
     cdn : "https://pygame-web.github.io/cdn/0.9.3/",
     autorun : 0,
     PYBUILD : "3.12",
-    fb_ar   :  1.77,
-    fb_width : "1280",
-    fb_height : "720"
+    fb_ar   :  1.333,
+    fb_width : "800",
+    fb_height : "600"
 }
 
 function show_infobox() {
@@ -187,87 +186,100 @@ function show_infobox() {
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes"/>
 
-    <!-- CHANGED FAVICON TO ROOT FOLDER ICON.ICO -->
+
     <link rel="icon" type="image/x-icon" href="../icon.ico">
 
     <style>
+        /* CSS VARIABLES APPLIED HERE */
+        :root {
+            --gold: #C8A42A;
+            --cream: #f0ede6;
+            --dark: #1a1a1a;
+            --mono: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            font-family: var(--mono);
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--cream);
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* NEW FLEXBOX LAYOUT CONTAINER */
+        .layout-container {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            align-items: flex-start;
+            flex-wrap: wrap; /* Allows text to wrap under game on small screens */
+        }
+
+        .game-section {
+            flex: 0 0 auto;
+            position: relative;
+            background-color: var(--dark);
+            border: 4px solid var(--gold);
+        }
+
+        .text-section {
+            flex: 1 1 300px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
         #status {
             display: inline-block;
             vertical-align: top;
             margin-top: 20px;
-            margin-left: 30px;
             font-weight: bold;
-            color: rgb(120, 120, 120);
+            color: var(--cream);
         }
 
         #progress {
             height: 20px;
             width: 300px;
+            accent-color: var(--gold);
         }
 
         #infobox {
             position: fixed; /* center relative to viewport */
-            background: #f0ede6;
-            color: #C8A42A;
+            background: var(--gold);
+            color: var(--dark);
             font-weight: bold;
             padding: 12px 24px;
- /*           display: none; */
             z-index: 999999;
+            border: 2px solid var(--dark);
         }
+        
         div.emscripten { text-align: center; }
         div.emscripten_border { border: 1px solid black; }
         div.thick_border { border: 4px solid black; }
 
-        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-        /* average size of droid screen 470dp x 320dp  */
         canvas.emscripten {
             border: 0px none;
             background-color: transparent;
-            width: 100%;
-            height: 100%;
             z-index: 5;
-
             padding: 0;
             margin: 0 auto;
-
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            
+            /* Overriding absolute position so flexbox works */
+            position: static !important;
+            width: 800px !important;
+            height: 600px !important;
+            display: block;
         }
 
-        body {
-            font-family: arial;
-            margin: 0;
-            padding: none;
-            background-color:#f0ede6; 
-        }
-
-        .topright{
-           position:absolute;
-           top:0px;
-           right:0px;
-        }
-
-        .bottomright {
-            position:absolute;
-            top: 40%;
-            right: 0px;
-        }
-
-        .center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .trinfo{
-           position: relative;
-           right: 0px;
-           border: 1px solid black;
-        }
-
+        .topright{ position:absolute; top:0px; right:0px; }
+        .bottomright { position:absolute; top: 40%; right: 0px; }
+        .center { display: flex; align-items: center; justify-content: center; }
+        .trinfo{ position: relative; right: 0px; border: 1px solid black; }
+        
         .framed{
            position: relative;
            top: 150px;
@@ -291,30 +303,31 @@ function show_infobox() {
 
 <body>
 
-    <div id="transfer" align=center>
-<!--        <div class="spinner" id='spinner'></div> -->
-        <div class="emscripten" id="status">Loading...</div>
-        <div class="emscripten">
-            <progress value="0" max="100" id="progress"></progress>
+    <div class="layout-container">
+        <!-- GAME SECTION -->
+        <div class="game-section">
+            <div id="transfer" align=center>
+                <!-- CHANGED DOWNLOADING TEXT HERE -->
+                <div class="emscripten" id="status">Loading project...</div>
+                <div class="emscripten">
+                    <progress value="0" max="100" id="progress"></progress>
+                </div>
+            </div>
+
+            <canvas class="emscripten" id="canvas" width="800px" height="600px" oncontextmenu="event.preventDefault()" tabindex=1></canvas>
+            <canvas class="emscripten" id="canvas3d" width="800px" height="600px" oncontextmenu="event.preventDefault()" tabindex=1 hidden></canvas>
+        </div>
+
+        <!-- TEXT SECTION SIDE-BY-SIDE -->
+        <div class="text-section">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
     </div>
 
 
-
-    <canvas class="emscripten" id="canvas"
-width="1px"
-height="1px"
-    oncontextmenu="event.preventDefault()" tabindex=1>
-    </canvas>
-
-    <canvas class="emscripten" id="canvas3d"
-width="1280px"
-height="720px"
-    oncontextmenu="event.preventDefault()" tabindex=1 hidden>
-    </canvas>
-
-    <!-- 6. INITIAL INFOBOX TEXT IS HERE -->
-    <div id="infobox">Loading, please wait ...</div>
+    <!-- CHANGED INFOBOX TEXT HERE -->
+    <div id="infobox">Loading project...</div>
 
     <div id=html></div>
 
