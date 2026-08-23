@@ -175,6 +175,32 @@ function show_infobox() {
             --mono: 'Courier New', Courier, monospace;
         }
 
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .app-btn {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--dark);
+            background-color: var(--cream);
+            
+            border: 1.5px solid var(--gold);
+            border-radius: 16px;
+            padding: 6px 14px;
+            
+            cursor: pointer;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .app-btn:hover {
+            background-color: var(--gold);
+            color: var(--cream);
+        }
+
         body {
             font-family: var(--mono);
             margin: 0;
@@ -196,11 +222,15 @@ function show_infobox() {
             flex-wrap: wrap; 
         }
 
+        /* UPDATED: Allows the section to shrink/grow fluidly up to 800px */
         .game-section {
-            flex: 0 0 auto;
+            flex: 1 1 500px;
+            max-width: 800px;
+            width: 100%;
             position: relative;
             background-color: var(--dark);
             border: 4px solid var(--gold);
+            box-sizing: border-box;
         }
 
         .text-section {
@@ -237,6 +267,7 @@ function show_infobox() {
         div.emscripten_border { border: 1px solid black; }
         div.thick_border { border: 4px solid black; }
 
+        /* UPDATED: Forces fluid width while maintaining exact 4:3 aspect ratio */
         canvas.emscripten {
             border: 0px none;
             background-color: transparent;
@@ -245,12 +276,12 @@ function show_infobox() {
             margin: 0 auto;
             
             position: static !important;
-            width: 800px !important;
-            height: 600px !important;
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 4 / 3 !important;
             display: block;
         }
 
-        /* FIX: FORCES THE HIDDEN 3D CANVAS TO ACTUALLY COLLAPSE */
         canvas[hidden] {
             display: none !important;
         }
@@ -261,10 +292,10 @@ function show_infobox() {
         .trinfo{ position: relative; right: 0px; border: 1px solid black; }
         
         .framed{
-           position: relative;
-           top: 150px;
-           right: 10px;
-           border: 1px solid black;
+        position: relative;
+        top: 150px;
+        right: 10px;
+        border: 1px solid black;
         }
     </style>
 
@@ -310,9 +341,24 @@ function show_infobox() {
         <!-- TEXT SECTION SIDE-BY-SIDE -->
         <div class="text-section">
             <h2>UI based Syntax Tree Generator</h2>
-            <br>
+            <div class="btn-group">
+                <button class="app-btn" onclick="window.increaseChildPerClick()">
+                    + Increase Children per Click
+                </button>
+                <button class="app-btn" onclick="window.decreaseChildPerClick()">
+                    - Decrease Children per Click
+                </button>
+            </div>
+            <div class="btn-group">
+                <button class="app-btn" onclick="window.reset()">
+                    Reset Tree
+                </button>
+                <button class="app-btn" onclick="window.export()">
+                    Export Tree
+                </button>
+            </div>
+
             <p>Currently being user tested. Hover over nodes to interact.</p>
-            <br>
             <p>Mobile usibility may be suboptimal.</p>
             <p><a href="https://sanilarora.com">Back to Home</a></p>
         </div>
