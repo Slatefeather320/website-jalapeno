@@ -159,37 +159,95 @@
       z-index: 100;
     }
 
-    /* ── ABOUT ── */
-    #about {
+#about {
       background: var(--cream);
       padding: 80px 10% 80px;
     }
-
+ 
     #section-title {
       font-family: var(--mono);
-      font-size: clamp(28px, 3vw, 52px);
+      font-size: clamp(28px, 5vw, 52px);
       font-weight: 700;
       letter-spacing: -0.01em;
-      margin-top: 200px;
+      margin-top: 80px;
       margin-bottom: 0;
     }
-
+ 
+    /* Top row: intro text | vertical hint | image + artworks link */
+    .about-top {
+      display: grid;
+      grid-template-columns: minmax(0, 640px) auto minmax(0, 1fr);
+      column-gap: 56px;
+      align-items: start;
+    }
+ 
     #intro-text {
       font-family: var(--mono);
-      font-size: clamp(15px, 2.2vw, 30px);
+      font-size: clamp(25px, 1.8vw, 19px);
       font-weight: 700;
-      line-height: 1.7;
-      max-width: 640px;
+      line-height: 1.3;
+    }
+ 
+    #intro-text p + p {
+      margin-top: 1em;
+    }
+ 
+    #intro-text a {
+      color: #0000ee;
     }
 
-    #intro-text p + p {
-      margin-top: 0.75em;
+    .scroll-hint {
+      font-family: var(--mono);
+      font-size: clamp(14px, 1.8vw, 19px);
+      font-weight: 700;
+      writing-mode: vertical-rl;
+      white-space: nowrap;
+      padding-top: 0px;
+    }
+ 
+    .about-side {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 40px;
+      padding-top: 24px;
+    }
+ 
+    .about-side img {
+      display: block;
+      width: 100%;
+      max-width: 270px;
+      height: auto;
+    }
+ 
+    .artworks-link {
+      font-family: var(--mono);
+      font-size: clamp(14px, 1.8vw, 19px);
+      font-weight: 700;
+      color: #0000ee;
+      text-decoration: none;
+    }
+ 
+    .artworks-link:hover { text-decoration: underline; }
+ 
+    @media (max-width: 768px) {
+      .about-side img { max-width: 120px; }
+      .about-top {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 32px;
+      }
+      .about-side { padding-top: 0; gap: 20px;}
+      .scroll-hint {
+        writing-mode: horizontal-tb;
+        padding-top: 0;
+        order: 3;
+      }
     }
 
     /* ── TIMELINE ── */
     #timeline {
       background: var(--cream);
-      padding: 16px 10% 100px;
+      padding: 16px 10% 40px;
     }
 
     .timeline-grid {
@@ -287,7 +345,7 @@
     #beige-banner {
       background: var(--cream);
       color: var(--dark);
-      padding: 80px 10%;
+      padding: 40px 10%;
     }
     
     #beige-banner p {
@@ -334,13 +392,35 @@
   <div id="divider"></div>
 
   <section id="about">
-    <div id="intro-text">
-      <p>I am an undergrad at the University of Maryland, College Park.</p>
-      <p>I am double majoring in Computer Science and Linguistics.</p>
-      <p>This is my portfolio website.</p>
-      <p>You can contact me on <a href="https://www.linkedin.com/in/sanilarora/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+    <div class="about-top">
+      <div id="intro-text">
+        <p>I am an undergrad at the University of Maryland, College Park.</p>
+        <p>I am double majoring in Computer Science and Linguistics.</p>
+        <p>This is my portfolio website.</p>
+        <p>You can contact me on <a href="https://www.linkedin.com/in/sanilarora/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+        <p>You can see more of my work on <a href="https://github.com/Slatefeather320/" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+      </div>
+ 
+      <div class="scroll-hint">Continue Scrolling for <br> CS and Ling -&gt;</div>
+ 
+      <div class="about-side">
+        <img src="sortedgogh.jpg" alt="IMAGE.PNG" />
+        <a class="artworks-link" href="art.html"><u>More art stuff </u>-&gt;</a>
+      </div>
     </div>
-    <div id="section-title">Projects and Work Experience</div>
+  </section>
+
+  <section id="gold-banner">
+    <h2>Currently</h2>
+    <p>Here are some interactive projects I am working on: 
+      <br><br><a href="/syntaxTreeGenerator/" style="display: inline-block; background: transparent; color: var(--cream); border: 2px solid var(--cream); padding: 0.2em 0.6em; font-family: var(--mono); font-size: 1.2em; text-decoration: none; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='var(--cream)'; this.style.color='var(--dark)';" onmouseout="this.style.background='transparent'; this.style.color='var(--cream)';">Syntax Tree Generator</a>
+      <br><br><a href="/pixel-game/" style="display: inline-block; background: transparent; color: var(--cream); border: 2px solid var(--cream); padding: 0.2em 0.6em; font-family: var(--mono); font-size: 1.2em; text-decoration: none; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='var(--cream)'; this.style.color='var(--dark)';" onmouseout="this.style.background='transparent'; this.style.color='var(--cream)';">Falling Sand Project</a>
+      
+    </p>
+  </section>
+
+  <section id="about">
+      <div id="section-title">Projects and Work Experience</div>
   </section>
 
   <section id="timeline">
@@ -397,14 +477,6 @@
       </div>
 
     </div>
-  </section>
-
-  <section id="gold-banner">
-    <h2>Currently</h2>
-    <p>Currently I am mostly focussing on college. Here are some interactive projects I have made over the summer: 
-      <br><br><a href="/syntaxTreeGenerator/" style="display: inline-block; background: transparent; color: var(--cream); border: 2px solid var(--cream); padding: 0.2em 0.6em; font-family: var(--mono); font-size: 1.2em; text-decoration: none; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='var(--cream)'; this.style.color='var(--dark)';" onmouseout="this.style.background='transparent'; this.style.color='var(--cream)';">Syntax Tree Generator</a>
-      <br><br><a href="/pixel-game/" style="display: inline-block; background: transparent; color: var(--cream); border: 2px solid var(--cream); padding: 0.2em 0.6em; font-family: var(--mono); font-size: 1.2em; text-decoration: none; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.background='var(--cream)'; this.style.color='var(--dark)';" onmouseout="this.style.background='transparent'; this.style.color='var(--cream)';">Falling Sand Project</a>
-    </p>
   </section>
 
   <section id="beige-banner">
