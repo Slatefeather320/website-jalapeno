@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Computer Graphics</title>
+    <style>
+        :root {
+            --gold: #C8A42A;
+            --cream: #f0ede6;
+            --dark: #1a1a1a;
+            --mono: 'Courier New', Courier, monospace;
+            --serif: Georgia, 'Times New Roman', serif;
+        }
+
+        body {
+            font-family: var(--serif);
+            font-size: clamp(15px, 2vw, 24px);
+            line-height: 1.2;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--cream);
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .layout-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Headings & Subheadings */
+        h1 {
+            font-family: var(--mono);
+            font-size: clamp(32px, 4vw, 52px);
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-family: var(--mono);
+            font-size: clamp(24px, 3vw, 40px);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-family: var(--mono);
+            font-size: clamp(18px, 2.2vw, 28px);
+            color: var(--gold);
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .media-container img,
+        .media-container iframe,
+        .media-container video {
+            width: 50%;
+            height: auto;
+            display: block;
+            aspect-ratio: 1 / 1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="layout-container">
+        <h1>Syntax Tree Generator</h1>
+
+        <p>Outside of my work in linguistics, I like to use Computer Graphics as a creative outlet.<br> I use the open source software Blender to do so. I have an Instagram account where I share this work which can be found <a href="https://www.instagram.com/sanilately/" target="_blank">here</a>. <br><br>
+
+        Also known as 3D Modeling or Computer Generated Imagery (CGI), Computer Graphics isn't an artform in the traditional sense. Its roots are in technical modeling, diagrams, and manufacturing. In 1977's Star Wars: A New Hope, for example, computer generated models were only used for an in-universe technical demonstration before the trench run. This changed through the late 90s and early 2000s as companies like Pixar used CGI for creative storytelling.<br><br>
+
+        My work tends to blend creative expression with the medium itself. Below is a video of a 3D model of a lightbulb. Instead of using traditional rendering practices, I have intentionally reduced the samples per pixel to create a noisy image. The noisy image is then run through an algorithmic denoiser which tries to fill in the gaps. The denoiser, working with insufficient data, is imperfect. This has a similar effect to handpainted watercolors. Big areas get similar colors and gradients. Sharp contrasts preserve details around edges, soft gradients blur details away from edges. Unlike water colors, since this is being done by a computer, it can be done several times from different angles. This creates the warping effect as the bulb spins.</p>
+
+        <div class="media-container">
+            <div class="media-container">
+            <video autoplay muted loop playsinline>
+                <source src="bulb.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        </div> <br><br>
+
+        <h2><a href="eportfolio.html">Home</a></h2>
+    </div>
+</body>
+</html>

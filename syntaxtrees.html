@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Syntax Tree Genertor</title>
+    <style>
+        :root {
+            --gold: #C8A42A;
+            --cream: #f0ede6;
+            --dark: #1a1a1a;
+            --mono: 'Courier New', Courier, monospace;
+            --serif: Georgia, 'Times New Roman', serif;
+        }
+
+        body {
+            font-family: var(--serif);
+            font-size: clamp(15px, 2vw, 24px);
+            line-height: 1.2;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--cream);
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .layout-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Headings & Subheadings */
+        h1 {
+            font-family: var(--mono);
+            font-size: clamp(32px, 4vw, 52px);
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-family: var(--mono);
+            font-size: clamp(24px, 3vw, 40px);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        h3 {
+            font-family: var(--mono);
+            font-size: clamp(18px, 2.2vw, 28px);
+            color: var(--gold);
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .featured-image {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-top: 30px;
+            border: 4px solid var(--gold);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="layout-container">
+        <h1>Syntax Tree Generator</h1>
+
+        <p>Syntax Trees are one of the most often used models to display syntactic information about a sentence in linguistics. They are used in presentations, research papers, and classes. LING410, LING200, LING240, LING311 for example, are just some classes at UMD where a student is expected to make a syntax tree. <br><br>
+
+        There are a few ways to do this. One is to draw them by hand, take a picture and paste it into the assignment. Another is to open a paint program and draw it with a mouse. Neither of these are particularly convenient or neat looking. The academic standard is to use a website like <a href="https://ironcreek.net/syntaxtree/" target="_blank">JsSyntaxTree</a> where syntax trees can be generated using a text based interface. While the results look great, text based interfaces can be daunting. Someone taking LING200 for gen-ed credit shouldn't be expected to learn a text based formatting tool.<br>
+        To fix this, I decided to make my own graphical interface based syntax tree generator. It is hosted on my website. Anyone can use it for free. You can find it <a href="syntaxTreeGenerator/index.html" target="_blank">here</a>.<br><br>
+
+        I wrote it in Python. It is a precompiled PyGame project hosted on GitHub pages. This paradigm allows me to have control on a per-pixel basis, enabling smooth dragging and scaling. By having this compiled before-hand, I can host it statically with minimal CSS for aesthetics. Making it essentially free for me to host.<br><br>
+        
+        <a href="https://github.com/Slatefeather320/SyntaxTreeGenerator" target="_blank">GitHub Repository</a></p>
+        <h3>Example Tree:</h3>
+
+        <img src="tree.png" class="featured-image"><br><br>  
+
+        <h2><a href="eportfolio.html">Home</a></h2>
+    </div>
+</body>
+</html>
